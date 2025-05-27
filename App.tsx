@@ -47,6 +47,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-slate-100 text-slate-800">
       <header id="app-header" className="bg-white shadow-md sticky top-0 z-50">
+        <link rel="icon" href="/favicon.ico" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             <div className="flex items-center">
                 <img
