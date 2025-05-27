@@ -50,7 +50,7 @@ const App: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             <div className="flex items-center">
                 <img
-                  src="/image/logo.png"
+                  src="image/logo.png"
                   alt="雅辑Markdown Logo"
                   className="h-8 w-auto"
                 />
