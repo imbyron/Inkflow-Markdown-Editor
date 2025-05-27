@@ -33,8 +33,8 @@
 2.  **获取代码**:
     *   通过 Git 克隆仓库：
         ```bash
-        git clone <your-repository-url>
-        cd <repository-name>
+        git clone git@github.com:imbyron/Inkflow-Markdown-Editor.git
+        cd Inkflow-Markdown-Editor
         ```
     *   或者，如果您已拥有包含所有项目文件的文件夹，请在该文件夹的根目录下打开您的终端。**确保该文件夹中包含一个 `package.json` 文件，其中定义了项目的依赖和脚本。**
 
