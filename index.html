@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雅辑Markdown</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <style type="text/tailwindcss">
+    body {
+      @apply bg-slate-50 font-sans; 
+    }
+    .markdown-preview {
+      @apply p-8 bg-white rounded-lg shadow-xl border border-slate-200 max-w-none; 
+    }
+    .markdown-preview h1 { @apply text-4xl font-bold mt-8 mb-6 pb-3 border-b border-slate-300 text-slate-900; } 
+    .markdown-preview h2 { @apply text-3xl font-semibold mt-7 mb-5 pb-2 border-b border-slate-300 text-slate-800; }
+    .markdown-preview h3 { @apply text-2xl font-semibold mt-6 mb-4 text-slate-700; }
+    .markdown-preview h4 { @apply text-xl font-semibold mt-5 mb-3 text-slate-700; }
+    .markdown-preview h5 { @apply text-lg font-semibold mt-4 mb-2 text-slate-700; }
+    .markdown-preview h6 { @apply text-base font-semibold mt-3 mb-1 text-slate-700; }
+    .markdown-preview p { @apply mb-5 leading-relaxed text-slate-700; } 
+    .markdown-preview a { @apply text-sky-600 hover:text-sky-500 hover:underline transition-colors duration-150; }
+    .markdown-preview ul { @apply list-disc pl-6 mb-5 space-y-1.5 text-slate-700; } 
+    .markdown-preview ol { @apply list-decimal pl-6 mb-5 space-y-1.5 text-slate-700; } 
+    .markdown-preview ul ul, .markdown-preview ol ol, .markdown-preview ul ol, .markdown-preview ol ul { @apply pl-4; }
+    .markdown-preview blockquote { @apply border-l-4 border-sky-500 pl-5 pr-5 pt-4 pb-1 mt-6 mb-1 bg-sky-50 text-slate-600 rounded-md shadow-sm; }
+    
+    .markdown-preview pre { 
+      @apply bg-slate-800 text-slate-100 p-4 rounded-lg shadow-md overflow-x-auto my-6 text-sm;
+    }
+    .markdown-preview code:not(pre code) { @apply bg-slate-200 text-rose-600 px-1.5 py-1 rounded-md text-sm font-mono; } 
+    .markdown-preview hr { @apply my-8 border-slate-300; }
+    .markdown-preview img { @apply rounded-lg my-6 shadow-md max-w-full h-auto mx-auto border border-slate-200; } 
+    .markdown-preview table { @apply min-w-full border-collapse border border-slate-200 my-6 shadow-sm text-sm break-inside-avoid-page; }
+    .markdown-preview th { @apply bg-slate-100 border border-slate-200 px-4 py-3 text-left font-semibold text-slate-700; }
+    .markdown-preview td { @apply border border-slate-200 px-4 py-3 text-slate-600; }
+
+    .markdown-preview .hljs {
+      @apply !bg-transparent !text-slate-100; 
+    }
+    .markdown-preview .hljs-comment,
+    .markdown-preview .hljs-quote {
+      @apply text-slate-400 italic; 
+    }
+    .markdown-preview .hljs-keyword,
+    .markdown-preview .hljs-selector-tag,
+    .markdown-preview .hljs-subst {
+      @apply text-sky-300 font-medium; 
+    }
+    .markdown-preview .hljs-number,
+    .markdown-preview .hljs-literal,
+    .markdown-preview .hljs-variable,
+    .markdown-preview .hljs-template-variable,
+    .markdown-preview .hljs-tag .hljs-attr {
+      @apply text-orange-300; 
+    }
+    .markdown-preview .hljs-string,
+    .markdown-preview .hljs-doctag {
+      @apply text-green-300; 
+    }
+    .markdown-preview .hljs-title,
+    .markdown-preview .hljs-section,
+    .markdown-preview .hljs-selector-id {
+      @apply text-indigo-300; 
+    }
+    .markdown-preview .hljs-regexp,
+    .markdown-preview .hljs-symbol,
+    .markdown-preview .hljs-bullet {
+      @apply text-rose-300; 
+    }
+    .markdown-preview .hljs-built_in,
+    .markdown-preview .hljs-builtin-name {
+      @apply text-cyan-300; 
+    }
+    .markdown-preview .hljs-emphasis {
+      @apply italic;
+    }
+    .markdown-preview .hljs-strong {
+      @apply font-semibold;
+    }
+    .markdown-preview .hljs-link {
+      @apply underline text-sky-300;
+    }
+    .markdown-preview .hljs-attr {
+        @apply text-violet-300; 
+    }
+    .markdown-preview .hljs-meta {
+        @apply text-slate-500; 
+    }
+  </style>
+  <style>
+    @media print {
+      @page {
+        margin-top: 20mm; /* Default for subsequent pages */
+        margin-left: 15mm;
+        margin-right: 15mm;
+        margin-bottom: 15mm;
+      }
+
+      @page :first {
+        margin-top: 10mm; /* Specific for the first page */
+      }
+
+      #app-header,
+      #app-footer,
+      #markdown-input-container,
+      .markdown-preview-header {
+        display: none !important;
+      }
+
+      #app-header, /* App Header is sticky */
+      .markdown-preview-header /* Preview control bar is sticky */ {
+        position: static !important; /* Ensure sticky elements don't reserve space when hidden */
+      }
+
+      body, html {
+        background-color: #ffffff !important;
+        height: auto !important;
+        overflow: visible !important;
+        margin: 0 !important; /* Reset body margins */
+        padding: 0 !important; /* Reset body padding */
+      }
+      
+      main.flex-grow.container {
+          max-width: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          display: block !important; /* Ensure main takes up space */
+          height: auto !important;
+          overflow: visible !important;
+      }
+
+      main > .grid {
+          display: block !important; 
+          margin: 0 !important;
+          padding: 0 !important;
+          gap: 0 !important;
+          height: auto !important;
+          overflow: visible !important;
+      }
+      
+      main > .grid > div { /* Target both columns initially */
+          padding: 0 !important; 
+          margin: 0 !important; /* Reset margins for grid children */
+          min-height: 0 !important;
+      }
+      
+      /* Explicitly ensure the preview column takes up space */
+      main > .grid > div:last-child {
+          display: block !important; /* Ensure preview column is visible if not hidden by ID */
+          height: auto !important;
+          overflow: visible !important;
+      }
+
+      #markdown-preview-content {
+        position: static !important;
+        margin: 0 !important;
+        padding: 0 !important; /* Use @page margins for spacing from page edge */
+        width: 100% !important; 
+        min-height: auto !important; /* Allow content to flow naturally based on @page margins */
+        height: auto !important; 
+        overflow: visible !important; 
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        max-width: none !important;
+        font-size: 10pt; 
+        line-height: 1.4;
+        background-color: #ffffff !important; /* Ensure preview content has white background */
+        box-sizing: border-box !important; 
+      }
+      
+      .markdown-preview h1 { @apply text-2xl; }
+      .markdown-preview h2 { @apply text-xl; }
+      .markdown-preview h3 { @apply text-lg; }
+
+      .markdown-preview pre, 
+      .markdown-preview code:not(pre code) {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact; 
+      }
+
+      .markdown-preview table, 
+      .markdown-preview pre, 
+      .markdown-preview blockquote, 
+      .markdown-preview img {
+        break-inside: avoid; 
+      }
+      
+      .markdown-preview a {
+        color: #333333 !important; 
+        text-decoration: none !important;
+      }
+    }
+  </style>
+
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/Inkflow-Markdown-Editor/assets/index-nGDT7zm4.js"></script>
+</head>
+<body>
+  <noscript>您需要启用 JavaScript 来运行此应用。</noscript>
+  <div id="root"></div>
+</body>
+</html><link rel="stylesheet" href="index.css">
