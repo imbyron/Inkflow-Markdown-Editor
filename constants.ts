@@ -75,7 +75,7 @@ print(fibonacci(100))
 ## 链接与图片
 
 访问我们的项目仓库：[雅辑Markdown](https://github.com/imbyron/Inkflow-Markdown-Editor)
-![雅辑Markdown](image/InkflowMarkdownEditor.png "雅辑Markdown")
+![雅辑Markdown](images/InkflowMarkdownEditor.png "雅辑Markdown")
 
 ---
 
