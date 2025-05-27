@@ -2,7 +2,7 @@
 
 雅辑Markdown 是一款采用优雅清新美学设计的 Markdown 编辑器，注重美学与功能的完美平衡。它支持实时预览 Markdown 文本，并能通过浏览器的打印功能将内容导出为高质量的 PDF 文档。
 
-![雅辑Markdown](image/InkflowMarkdownEditor.png "雅辑Markdown")
+![雅辑Markdown](public/images/InkflowMarkdownEditor.png "雅辑Markdown")
 
 ## ✨ 功能特性
 
