@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import ReactGA from 'react-ga4';
 import { MarkdownInput } from './components/MarkdownInput';
 import { MarkdownPreview } from './components/MarkdownPreview';
 import { parseMarkdown } from './services/markdownService';
@@ -33,6 +34,18 @@ const App: React.FC = () => {
     try {
       await exportToPdf(pdfTitle);
       console.log("exportToPdf promise resolved. Print dialog should have been handled by now.");
+      
+      // 发送GA事件
+      // 确保 VITE_GA_MEASUREMENT_ID 存在（即GA已初始化）
+      if (import.meta.env.VITE_GA_MEASUREMENT_ID) { 
+        ReactGA.event({
+          category: "UserAction",
+          action: "Clicked Export PDF",
+          label: pdfTitle || "Untitled PDF", 
+        });
+        console.log("GA event 'Clicked Export PDF' sent.");
+     }
+
       setTimeout(() => {
         console.log("Re-enabling export button.");
         setIsLoadingPdf(false);
